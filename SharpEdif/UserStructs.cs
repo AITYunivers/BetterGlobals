@@ -10,8 +10,6 @@ namespace SharpEdif.User
     }
     public class RunData
     {
-        // You can add any fields, properties or methods to this class
-        public string ExampleString;
     }
     
 }
