@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/CompiledExtension/SharpEdif.dll
+/CompiledExtension/SharpEdif.mfx
+/CompiledExtension/SharpEdif.mfxtemp
