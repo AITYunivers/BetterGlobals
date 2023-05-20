@@ -10,6 +10,8 @@ namespace SharpEdif.User
     }
     public class RunData
     {
+        public Dictionary<string, object> gV = new Dictionary<string, object>();
+        public Dictionary<string, bool> gVSet = new Dictionary<string, bool>();
     }
     
 }

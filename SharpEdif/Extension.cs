@@ -12,9 +12,6 @@ namespace SharpEdif.User
         public const string ExtensionComment = "A better alternative to Clickteam's Global Values, supporting integers, doubles, strings, booleans, and arrays.";
         public const string ExtensionHttp = "https://www.gamejolt.com/invite/AITYunivers";
 
-        public static Dictionary<string, object> gV = new Dictionary<string, object>();
-        public static Dictionary<string, bool> gVSet = new Dictionary<string, bool>();
-
         #region Actions
 
         // This action sets an index to a value
@@ -40,20 +37,20 @@ namespace SharpEdif.User
                     break;
             }
 
-            if (gV.ContainsKey(p1))
-                gV[p1] = toAdd;
+            if (rdPtr->runData.gV.ContainsKey(p1))
+                rdPtr->runData.gV[p1] = toAdd;
             else
-                gV.Add(p1, toAdd);
+                rdPtr->runData.gV.Add(p1, toAdd);
         }
 
         // This action sets an index to a string
         [Action("Set String", "Set string of %0 to %1")]
         public static void setIndexString(LPRDATA* rdPtr, string p1, string p2)
         {
-            if (gV.ContainsKey(p1))
-                gV[p1] = p2;
+            if (rdPtr->runData.gV.ContainsKey(p1))
+                rdPtr->runData.gV[p1] = p2;
             else
-                gV.Add(p1, p2);
+                rdPtr->runData.gV.Add(p1, p2);
         }
 
         // This action sets an index within an array to a value
@@ -79,29 +76,29 @@ namespace SharpEdif.User
                     break;
             }
 
-            if (gV.ContainsKey(p1) && gV[p1] is object[])
+            if (rdPtr->runData.gV.ContainsKey(p1) && rdPtr->runData.gV[p1] is object[])
             {
-                if (((object[])gV[p1]).Length > p2)
-                    ((object[])gV[p1])[p2] = toAdd;
-                else if (!gVSet[p1])
+                if (((object[])rdPtr->runData.gV[p1]).Length > p2)
+                    ((object[])rdPtr->runData.gV[p1])[p2] = toAdd;
+                else if (!rdPtr->runData.gVSet[p1])
                 {
-                    object[] r = (object[])gV[p1];
+                    object[] r = (object[])rdPtr->runData.gV[p1];
                     Array.Resize(ref r, p2 + 1);
                     r[p2] = toAdd;
-                    if (gV.ContainsKey(p1))
-                        gV[p1] = r;
+                    if (rdPtr->runData.gV.ContainsKey(p1))
+                        rdPtr->runData.gV[p1] = r;
                     else
-                        gV.Add(p1, r);
+                        rdPtr->runData.gV.Add(p1, r);
                 }
             }
             else
             {
                 object[] r = new object[p2 + 1];
                 r[p2] = toAdd;
-                if (gV.ContainsKey(p1))
-                    gV[p1] = r;
+                if (rdPtr->runData.gV.ContainsKey(p1))
+                    rdPtr->runData.gV[p1] = r;
                 else
-                    gV.Add(p1, r);
+                    rdPtr->runData.gV.Add(p1, r);
             }
         }
 
@@ -109,29 +106,29 @@ namespace SharpEdif.User
         [Action("Set String in Array", "Set string of %1 in array %0 to %2")]
         public static void setIndexArrayString(LPRDATA* rdPtr, string p1, int p2, string p3)
         {
-            if (gV.ContainsKey(p1) && gV[p1] is object[])
+            if (rdPtr->runData.gV.ContainsKey(p1) && rdPtr->runData.gV[p1] is object[])
             {
-                if (((object[])gV[p1]).Length > p2)
-                    ((object[])gV[p1])[p2] = p3;
-                else if (!gVSet[p1])
+                if (((object[])rdPtr->runData.gV[p1]).Length > p2)
+                    ((object[])rdPtr->runData.gV[p1])[p2] = p3;
+                else if (!rdPtr->runData.gVSet[p1])
                 {
-                    object[] r = (object[])gV[p1];
+                    object[] r = (object[])rdPtr->runData.gV[p1];
                     Array.Resize(ref r, p2 + 1);
                     r[p2] = p3;
-                    if (gV.ContainsKey(p1))
-                        gV[p1] = r;
+                    if (rdPtr->runData.gV.ContainsKey(p1))
+                        rdPtr->runData.gV[p1] = r;
                     else
-                        gV.Add(p1, r);
+                        rdPtr->runData.gV.Add(p1, r);
                 }
             }
             else
             {
                 object[] r = new object[p2 + 1];
                 r[p2] = p3;
-                if (gV.ContainsKey(p1))
-                    gV[p1] = r;
+                if (rdPtr->runData.gV.ContainsKey(p1))
+                    rdPtr->runData.gV[p1] = r;
                 else
-                    gV.Add(p1, r);
+                    rdPtr->runData.gV.Add(p1, r);
             }
         }
 
@@ -140,24 +137,24 @@ namespace SharpEdif.User
         public static void setArrayLength(LPRDATA* rdPtr, string p1, int p2)
         {
             if (p2 == -1)
-                gVSet[p1] = false;
+                rdPtr->runData.gVSet[p1] = false;
             else
             {
-                gVSet[p1] = true;
-                if (gV.ContainsKey(p1) && gV[p1] is object[])
+                rdPtr->runData.gVSet[p1] = true;
+                if (rdPtr->runData.gV.ContainsKey(p1) && rdPtr->runData.gV[p1] is object[])
                 {
-                    object[] r = (object[])gV[p1];
+                    object[] r = (object[])rdPtr->runData.gV[p1];
                     Array.Resize(ref r, p2);
-                    if (gV.ContainsKey(p1))
-                        gV[p1] = r;
+                    if (rdPtr->runData.gV.ContainsKey(p1))
+                        rdPtr->runData.gV[p1] = r;
                     else
-                        gV.Add(p1, r);
+                        rdPtr->runData.gV.Add(p1, r);
                 }
                 else
-                    if (gV.ContainsKey(p1))
-                    gV[p1] = new object[p2];
+                    if (rdPtr->runData.gV.ContainsKey(p1))
+                    rdPtr->runData.gV[p1] = new object[p2];
                 else
-                    gV.Add(p1, new object[p2]);
+                    rdPtr->runData.gV.Add(p1, new object[p2]);
             }
         }
 
@@ -166,12 +163,22 @@ namespace SharpEdif.User
         #region Expressions
 
         // This expression returns the id of the index's type.
+        [Expression("TEST", "BeGlTest(")]
+        public static string getIndexType(LPRDATA* rdPtr)
+        {
+            string output = string.Empty;
+            foreach (string key in rdPtr->runData.gV.Keys)
+                output += key + "\n";
+            return output.TrimEnd('\n');
+        }
+
+        // This expression returns the id of the index's type.
         [Expression("Get Value Type", "BeGlType(")]
         public static float getIndexType(LPRDATA* rdPtr, string p1)
         {
-            if (!gV.ContainsKey(p1)) return 0;
+            if (!rdPtr->runData.gV.ContainsKey(p1)) return 0;
 
-            switch (gV[p1].GetType().FullName)
+            switch (rdPtr->runData.gV[p1].GetType().FullName)
             {
                 default:
                     return 0;
@@ -192,18 +199,18 @@ namespace SharpEdif.User
         [Expression("Get Value", "BeGlValue(")]
         public static float getIndexValue(LPRDATA* rdPtr, string p1)
         {
-            if (!gV.ContainsKey(p1)) return -1;
+            if (!rdPtr->runData.gV.ContainsKey(p1)) return -1;
 
-            switch (gV[p1].GetType().FullName)
+            switch (rdPtr->runData.gV[p1].GetType().FullName)
             {
                 default:
                     return -1;
                 case "System.Int32":
-                    return (int)gV[p1];
+                    return (int)rdPtr->runData.gV[p1];
                 case "System.Single":
-                    return (float)gV[p1];
+                    return (float)rdPtr->runData.gV[p1];
                 case "System.Boolean":
-                    return (bool)gV[p1] ? 1 : 0;
+                    return (bool)rdPtr->runData.gV[p1] ? 1 : 0;
             }
         }
 
@@ -211,8 +218,8 @@ namespace SharpEdif.User
         [Expression("Get String", "BeGlString$(")]
         public static string getIndexString(LPRDATA* rdPtr, string p1)
         {
-            if (gV.ContainsKey(p1) && gV[p1] is string)
-                return (string)gV[p1];
+            if (rdPtr->runData.gV.ContainsKey(p1) && rdPtr->runData.gV[p1] is string)
+                return (string)rdPtr->runData.gV[p1];
             return "";
         }
 
@@ -220,18 +227,18 @@ namespace SharpEdif.User
         [Expression("Get Array Value", "BeGlArrayValue(")]
         public static float getIndexArrayValue(LPRDATA* rdPtr, string p1, int p2)
         {
-            if (!gV.ContainsKey(p1)) return -1;
+            if (!rdPtr->runData.gV.ContainsKey(p1)) return -1;
 
-            switch (((object[])gV[p1])[p2].GetType().FullName)
+            switch (((object[])rdPtr->runData.gV[p1])[p2].GetType().FullName)
             {
                 default:
                     return -1;
                 case "System.Int32":
-                    return (int)((object[])gV[p1])[p2];
+                    return (int)((object[])rdPtr->runData.gV[p1])[p2];
                 case "System.Single":
-                    return (float)((object[])gV[p1])[p2];
+                    return (float)((object[])rdPtr->runData.gV[p1])[p2];
                 case "System.Boolean":
-                    return (bool)((object[])gV[p1])[p2] ? 1 : 0;
+                    return (bool)((object[])rdPtr->runData.gV[p1])[p2] ? 1 : 0;
             }
         }
 
@@ -239,13 +246,13 @@ namespace SharpEdif.User
         [Expression("Get Array String", "BeGlArrayString$(")]
         public static string getIndexArrayString(LPRDATA* rdPtr, string p1, int p2)
         {
-            if (!gV.ContainsKey(p1) ||
-                gV[p1] is not object[] ||
-                ((object[])gV[p1]).Length <= p2)
+            if (!rdPtr->runData.gV.ContainsKey(p1) ||
+                rdPtr->runData.gV[p1] is not object[] ||
+                ((object[])rdPtr->runData.gV[p1]).Length <= p2)
                 return "";
 
-            if (((object[])gV[p1])[p2] is string)
-                return (string)((object[])gV[p1])[p2];
+            if (((object[])rdPtr->runData.gV[p1])[p2] is string)
+                return (string)((object[])rdPtr->runData.gV[p1])[p2];
             return "";
         }
 
@@ -253,10 +260,10 @@ namespace SharpEdif.User
         [Expression("Get Array Length", "BeGlArrayLength(")]
         public static float getArrayLength(LPRDATA* rdPtr, string p1)
         {
-            if (!gV.ContainsKey(p1) ||
-                gV[p1] is not object[])
+            if (!rdPtr->runData.gV.ContainsKey(p1) ||
+                rdPtr->runData.gV[p1] is not object[])
                 return -1;
-            return ((object[])gV[p1]).Length;
+            return ((object[])rdPtr->runData.gV[p1]).Length;
         }
 
         #endregion

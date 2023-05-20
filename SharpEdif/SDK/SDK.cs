@@ -79,7 +79,7 @@ namespace SharpEdif
         }
         public static string CNC_GetStringParameter(LPRDATA* rdPtr)
         {
-            return Marshal.PtrToStringAnsi(new IntPtr(CallRuntimeFunction(rdPtr, 17, 0xFFFFFFFF, 0)));
+            return Marshal.PtrToStringAuto(new IntPtr(CallRuntimeFunction(rdPtr, 17, 0xFFFFFFFF, 0)));
         }
         public static byte* CNC_GetStringParameterPtr(LPRDATA* rdPtr)
         {
