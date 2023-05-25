@@ -6,7 +6,7 @@ namespace SharpEdif.User
 {
     public unsafe class Extension
     {
-        public const string ExtensionName = "Better Global Values";
+        public const string ExtensionName = "Crystal Globals";
         public const string ExtensionAuthor = "Yunivers";
         public const string ExtensionCopyright = "Copyright © 2023 Yunivers";
         public const string ExtensionComment = "A better alternative to Clickteam's Global Values, supporting integers, doubles, strings, booleans, and arrays.";
